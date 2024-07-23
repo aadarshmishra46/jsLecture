@@ -122,4 +122,142 @@
 - **Day 56: Documentation**
 
 ---
+### Day 1: Advanced JavaScript Concepts - Scope and Closures
+
+#### Scope
+1. **Lexical Scope**:
+    - Lexical scope refers to the accessibility of variables based on their physical location within the source code.
+    - JavaScript uses lexical scoping to manage variable visibility and lifetimes.
+
+    ```javascript
+    function outerFunction() {
+        let outerVariable = 'I am outside!';
+        
+        function innerFunction() {
+            console.log(outerVariable); // Can access outerVariable
+        }
+        
+        innerFunction();
+    }
+
+    outerFunction(); // Logs: 'I am outside!'
+    ```
+
+2. **Global vs Local Scope**:
+    - Global scope: Variables declared outside any function are in the global scope.
+    - Local scope: Variables declared within a function are in the local scope of that function.
+
+    ```javascript
+    let globalVar = 'I am global';
+
+    function myFunction() {
+        let localVar = 'I am local';
+        console.log(globalVar); // Can access globalVar
+        console.log(localVar);  // Can access localVar
+    }
+
+    myFunction();
+    console.log(localVar);  // Error: localVar is not defined
+    ```
+
+#### Closures
+1. **Definition**:
+    - A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.
+
+    ```javascript
+    function makeCounter() {
+        let count = 0;
+        
+        return function() {
+            count++;
+            return count;
+        };
+    }
+
+    const counter = makeCounter();
+    console.log(counter()); // 1
+    console.log(counter()); // 2
+    ```
+
+2. **Use Cases**:
+    - **Encapsulation**: Closures allow you to create private variables and methods.
+    - **Callbacks**: Often used in event handlers, setTimeout, setInterval, etc.
+
+    ```javascript
+    function createGreeting(greeting) {
+        return function(name) {
+            console.log(`${greeting}, ${name}!`);
+        };
+    }
+
+    const sayHello = createGreeting('Hello');
+    sayHello('Alice'); // 'Hello, Alice!'
+    sayHello('Bob');   // 'Hello, Bob!'
+    ```
+
+#### Practice Exercises
+1. **Exercise 1: Lexical Scope**
+
+    ```javascript
+    function outer() {
+        let a = 1;
+        
+        function inner() {
+            let b = 2;
+            console.log(a + b); // Should print 3
+        }
+        
+        inner();
+    }
+    
+    outer();
+    ```
+
+2. **Exercise 2: Closures**
+
+    ```javascript
+    function multiplier(factor) {
+        return function(number) {
+            return number * factor;
+        };
+    }
+
+    const double = multiplier(2);
+    console.log(double(5)); // Should print 10
+
+    const triple = multiplier(3);
+    console.log(triple(5)); // Should print 15
+    ```
+
+3. **Exercise 3: Private Variables with Closures**
+
+    ```javascript
+    function createCounter() {
+        let count = 0;
+        
+        return {
+            increment() {
+                count++;
+                return count;
+            },
+            decrement() {
+                count--;
+                return count;
+            },
+            getCount() {
+                return count;
+            }
+        };
+    }
+
+    const counter = createCounter();
+    console.log(counter.increment()); // Should print 1
+    console.log(counter.increment()); // Should print 2
+    console.log(counter.decrement()); // Should print 1
+    console.log(counter.getCount());  // Should print 1
+    ```
+
+### Summary
+- **Lexical Scope**: Understand how variable scope is determined by the physical placement of the code.
+- **Closures**: Learn how functions can retain access to their lexical scope, providing powerful ways to manage state and create private variables.
 
