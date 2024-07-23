@@ -1,5 +1,5 @@
 # jsLecture
-Sure! Here's the plan formatted for easy copying:
+
 
 ---
 
@@ -123,4 +123,3 @@ Sure! Here's the plan formatted for easy copying:
 
 ---
 
-You can copy and paste this plan into your notes or task manager to keep track of your progress. Let me know if you need any further assistance!
