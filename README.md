@@ -261,3 +261,134 @@
 - **Lexical Scope**: Understand how variable scope is determined by the physical placement of the code.
 - **Closures**: Learn how functions can retain access to their lexical scope, providing powerful ways to manage state and create private variables.
 
+---
+### Day 2: Advanced JavaScript Concepts - Hoisting
+
+#### Hoisting
+1. **Definition**:
+    - Hoisting is JavaScript's default behavior of moving declarations to the top of the current scope (script or function) during the compile phase.
+    - Only declarations are hoisted, not initializations.
+
+2. **Variable Hoisting**:
+    - Variables declared with `var` are hoisted to the top of their containing function or script.
+    - `let` and `const` variables are also hoisted but are not initialized until their definition is evaluated. This results in a "temporal dead zone" where accessing them before declaration throws an error.
+
+    ```javascript
+    console.log(a); // undefined
+    var a = 5;
+    console.log(a); // 5
+
+    console.log(b); // ReferenceError: Cannot access 'b' before initialization
+    let b = 10;
+    console.log(b); // 10
+    ```
+
+3. **Function Hoisting**:
+    - Function declarations are hoisted to the top of their scope and can be called before they are defined in the code.
+    - Function expressions are not hoisted.
+
+    ```javascript
+    hoistedFunction(); // "This function is hoisted"
+
+    function hoistedFunction() {
+        console.log("This function is hoisted");
+    }
+
+    nonHoistedFunction(); // TypeError: nonHoistedFunction is not a function
+
+    var nonHoistedFunction = function() {
+        console.log("This function is not hoisted");
+    };
+    ```
+
+4. **Class Hoisting**:
+    - Classes declared with `class` are hoisted but similar to `let` and `const`, they are not initialized until evaluated.
+
+    ```javascript
+    const instance = new MyClass(); // ReferenceError: Cannot access 'MyClass' before initialization
+
+    class MyClass {
+        constructor() {
+            console.log("MyClass instance created");
+        }
+    }
+    ```
+
+#### Practice Exercises
+1. **Exercise 1: Variable Hoisting with `var`**
+
+    ```javascript
+    console.log(x); // undefined
+    var x = 10;
+    console.log(x); // 10
+
+    function testVarHoisting() {
+        console.log(y); // undefined
+        var y = 20;
+        console.log(y); // 20
+    }
+
+    testVarHoisting();
+    ```
+
+2. **Exercise 2: Variable Hoisting with `let` and `const`**
+
+    ```javascript
+    try {
+        console.log(a); // ReferenceError
+        let a = 5;
+    } catch (e) {
+        console.log(e.message); // "Cannot access 'a' before initialization"
+    }
+
+    try {
+        console.log(b); // ReferenceError
+        const b = 10;
+    } catch (e) {
+        console.log(e.message); // "Cannot access 'b' before initialization"
+    }
+    ```
+
+3. **Exercise 3: Function Hoisting**
+
+    ```javascript
+    hoistedFunc(); // "Hoisted Function"
+
+    function hoistedFunc() {
+        console.log("Hoisted Function");
+    }
+
+    try {
+        nonHoistedFunc(); // TypeError
+    } catch (e) {
+        console.log(e.message); // "nonHoistedFunc is not a function"
+    }
+
+    var nonHoistedFunc = function() {
+        console.log("Non-Hoisted Function");
+    };
+    ```
+
+4. **Exercise 4: Class Hoisting**
+
+    ```javascript
+    try {
+        const myInstance = new MyClass(); // ReferenceError
+    } catch (e) {
+        console.log(e.message); // "Cannot access 'MyClass' before initialization"
+    }
+
+    class MyClass {
+        constructor() {
+            console.log("MyClass instance created");
+        }
+    }
+
+    const myInstance = new MyClass(); // "MyClass instance created"
+    ```
+
+### Summary
+- **Hoisting**: Understand how variable and function declarations are moved to the top of their scope.
+- **Variables**: Recognize the differences in hoisting behavior between `var`, `let`, and `const`.
+- **Functions and Classes**: Learn how function declarations and class definitions are hoisted.
+
