@@ -392,3 +392,189 @@
 - **Variables**: Recognize the differences in hoisting behavior between `var`, `let`, and `const`.
 - **Functions and Classes**: Learn how function declarations and class definitions are hoisted.
 
+---
+### Day 3: Advanced JavaScript Concepts - Event Loop and Asynchronous Programming
+
+#### Event Loop
+1. **Definition**:
+    - The event loop is a fundamental concept in JavaScript that allows for non-blocking asynchronous programming.
+    - It enables JavaScript to perform tasks like handling events, executing callbacks, and processing asynchronous operations.
+
+2. **Call Stack**:
+    - The call stack is a data structure that keeps track of function calls.
+    - When a function is called, it’s added to the top of the stack. When the function returns, it’s removed from the stack.
+
+    ```javascript
+    function foo() {
+        console.log("foo");
+    }
+
+    function bar() {
+        foo();
+        console.log("bar");
+    }
+
+    bar(); // Logs: "foo", "bar"
+    ```
+
+3. **Event Queue**:
+    - The event queue (or task queue) is where asynchronous events (like click events, timer callbacks) are queued to be processed by the event loop.
+    - When the call stack is empty, the event loop processes the next event in the queue.
+
+    ```javascript
+    console.log("Start");
+
+    setTimeout(() => {
+        console.log("Timeout");
+    }, 0);
+
+    console.log("End");
+
+    // Logs: "Start", "End", "Timeout"
+    ```
+
+4. **Event Loop Process**:
+    - The event loop continuously checks if the call stack is empty.
+    - If the call stack is empty, it takes the first event from the event queue and pushes it onto the call stack for execution.
+
+    ```javascript
+    console.log("Start");
+
+    setTimeout(() => {
+        console.log("Timeout 1");
+    }, 0);
+
+    setTimeout(() => {
+        console.log("Timeout 2");
+    }, 0);
+
+    console.log("End");
+
+    // Logs: "Start", "End", "Timeout 1", "Timeout 2"
+    ```
+
+#### Asynchronous Programming
+1. **Callbacks**:
+    - A callback is a function passed as an argument to another function to be executed later.
+
+    ```javascript
+    function fetchData(callback) {
+        setTimeout(() => {
+            const data = { name: "John" };
+            callback(data);
+        }, 1000);
+    }
+
+    fetchData((data) => {
+        console.log(data); // Logs: { name: "John" }
+    });
+    ```
+
+2. **Promises**:
+    - A promise represents a value that may be available now, or in the future, or never.
+    - Promises have three states: pending, fulfilled, and rejected.
+
+    ```javascript
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Success");
+        }, 1000);
+    });
+
+    promise.then((value) => {
+        console.log(value); // Logs: "Success"
+    }).catch((error) => {
+        console.error(error);
+    });
+    ```
+
+3. **Async/Await**:
+    - `async` and `await` provide a way to work with promises in a more synchronous fashion.
+    - An `async` function always returns a promise.
+    - The `await` keyword pauses the execution of the async function until the promise is resolved.
+
+    ```javascript
+    async function fetchData() {
+        const promise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve("Data fetched");
+            }, 1000);
+        });
+
+        const result = await promise;
+        console.log(result); // Logs: "Data fetched"
+    }
+
+    fetchData();
+    ```
+
+#### Practice Exercises
+1. **Exercise 1: Understanding the Event Loop**
+
+    ```javascript
+    console.log("First");
+
+    setTimeout(() => {
+        console.log("Second");
+    }, 0);
+
+    console.log("Third");
+
+    // Logs: "First", "Third", "Second"
+    ```
+
+2. **Exercise 2: Using Callbacks**
+
+    ```javascript
+    function doHomework(subject, callback) {
+        console.log(`Starting my ${subject} homework.`);
+        callback();
+    }
+
+    doHomework('math', () => {
+        console.log('Finished my homework');
+    });
+
+    // Logs: "Starting my math homework.", "Finished my homework"
+    ```
+
+3. **Exercise 3: Creating and Using Promises**
+
+    ```javascript
+    const myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Promise resolved");
+        }, 2000);
+    });
+
+    myPromise.then((message) => {
+        console.log(message); // Logs: "Promise resolved"
+    }).catch((error) => {
+        console.error(error);
+    });
+    ```
+
+4. **Exercise 4: Using Async/Await**
+
+    ```javascript
+    async function asyncFunction() {
+        const promise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve("Async/Await resolved");
+            }, 1500);
+        });
+
+        const result = await promise;
+        console.log(result); // Logs: "Async/Await resolved"
+    }
+
+    asyncFunction();
+    ```
+
+### Summary
+- **Event Loop**: Understand how the event loop processes the call stack and event queue.
+- **Callbacks**: Learn how to handle asynchronous operations using callbacks.
+- **Promises**: Understand the use of promises to manage asynchronous operations.
+- **Async/Await**: Learn to write asynchronous code in a more readable and maintainable way using async/await.
+
+
