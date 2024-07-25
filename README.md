@@ -577,4 +577,170 @@
 - **Promises**: Understand the use of promises to manage asynchronous operations.
 - **Async/Await**: Learn to write asynchronous code in a more readable and maintainable way using async/await.
 
+---
+### Day 4: Advanced JavaScript Concepts - Prototypes and Inheritance
+
+#### Prototypes
+1. **Definition**:
+    - In JavaScript, every object has a prototype, which is also an object.
+    - A prototype is a blueprint from which objects inherit properties and methods.
+
+2. **Prototype Chain**:
+    - The prototype chain is used to build an inheritance hierarchy.
+    - Objects inherit from other objects, and this chain of inheritance is called the prototype chain.
+
+    ```javascript
+    const animal = {
+        eats: true,
+        walk() {
+            console.log("Animal walks");
+        }
+    };
+
+    const rabbit = {
+        jumps: true,
+        __proto__: animal
+    };
+
+    console.log(rabbit.eats); // true
+    rabbit.walk(); // "Animal walks"
+    ```
+
+3. **Object.prototype**:
+    - All objects in JavaScript inherit from `Object.prototype`.
+    - This is the top of the prototype chain.
+
+    ```javascript
+    const obj = {};
+    console.log(obj.toString()); // "[object Object]"
+    console.log(obj.hasOwnProperty('toString')); // false
+    ```
+
+#### Inheritance
+1. **Constructor Functions**:
+    - Constructor functions are used to create multiple similar objects.
+    - They use the `this` keyword to set properties of the created object.
+
+    ```javascript
+    function Animal(name) {
+        this.name = name;
+        this.eats = true;
+    }
+
+    Animal.prototype.walk = function() {
+        console.log(`${this.name} walks`);
+    };
+
+    const rabbit = new Animal("Rabbit");
+    console.log(rabbit.name); // "Rabbit"
+    rabbit.walk(); // "Rabbit walks"
+    ```
+
+2. **ES6 Classes**:
+    - ES6 introduced classes as a syntactic sugar over constructor functions and prototypes.
+    - They provide a cleaner and more intuitive syntax for creating objects and dealing with inheritance.
+
+    ```javascript
+    class Animal {
+        constructor(name) {
+            this.name = name;
+            this.eats = true;
+        }
+
+        walk() {
+            console.log(`${this.name} walks`);
+        }
+    }
+
+    class Rabbit extends Animal {
+        constructor(name) {
+            super(name);
+            this.jumps = true;
+        }
+    }
+
+    const rabbit = new Rabbit("Rabbit");
+    console.log(rabbit.name); // "Rabbit"
+    console.log(rabbit.eats); // true
+    console.log(rabbit.jumps); // true
+    rabbit.walk(); // "Rabbit walks"
+    ```
+
+#### Practice Exercises
+1. **Exercise 1: Prototype Chain**
+
+    ```javascript
+    const vehicle = {
+        hasEngine: true
+    };
+
+    const car = {
+        hasWheels: true,
+        __proto__: vehicle
+    };
+
+    const electricCar = {
+        hasBattery: true,
+        __proto__: car
+    };
+
+    console.log(electricCar.hasEngine); // true
+    console.log(electricCar.hasWheels); // true
+    console.log(electricCar.hasBattery); // true
+    ```
+
+2. **Exercise 2: Constructor Functions**
+
+    ```javascript
+    function Person(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    Person.prototype.greet = function() {
+        console.log(`Hello, my name is ${this.name}`);
+    };
+
+    const john = new Person("John", 30);
+    const jane = new Person("Jane", 25);
+
+    john.greet(); // "Hello, my name is John"
+    jane.greet(); // "Hello, my name is Jane"
+    ```
+
+3. **Exercise 3: ES6 Classes**
+
+    ```javascript
+    class Shape {
+        constructor(color) {
+            this.color = color;
+        }
+
+        describe() {
+            return `A shape of color ${this.color}`;
+        }
+    }
+
+    class Circle extends Shape {
+        constructor(color, radius) {
+            super(color);
+            this.radius = radius;
+        }
+
+        area() {
+            return Math.PI * this.radius * this.radius;
+        }
+    }
+
+    const myCircle = new Circle("red", 10);
+    console.log(myCircle.describe()); // "A shape of color red"
+    console.log(myCircle.area()); // 314.159...
+    ```
+
+### Summary
+- **Prototypes**: Understand how objects inherit properties and methods through the prototype chain.
+- **Constructor Functions**: Learn to create objects using constructor functions.
+- **ES6 Classes**: Use ES6 classes to create objects and handle inheritance in a more intuitive way.
+
+
 
