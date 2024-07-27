@@ -742,5 +742,186 @@
 - **Constructor Functions**: Learn to create objects using constructor functions.
 - **ES6 Classes**: Use ES6 classes to create objects and handle inheritance in a more intuitive way.
 
+---
+### Day 5: Advanced JavaScript Concepts - Prototypes and Inheritance (Continued)
 
+#### More on Prototypes
+1. **Adding Methods to Prototypes**:
+    - You can add methods to an object's prototype to ensure that all instances of that object share the same method, saving memory.
+
+    ```javascript
+    function Person(name) {
+        this.name = name;
+    }
+
+    Person.prototype.greet = function() {
+        console.log(`Hello, my name is ${this.name}`);
+    };
+
+    const alice = new Person("Alice");
+    const bob = new Person("Bob");
+
+    alice.greet(); // "Hello, my name is Alice"
+    bob.greet();   // "Hello, my name is Bob"
+    ```
+
+2. **Prototype Property**:
+    - The `prototype` property is available only on functions, as they are meant to be constructors.
+    - Instances created using constructor functions have an internal `[[Prototype]]` property that links to the constructor's `prototype`.
+
+    ```javascript
+    function Animal() {}
+    console.log(Animal.prototype); // {}
+
+    const dog = new Animal();
+    console.log(Object.getPrototypeOf(dog) === Animal.prototype); // true
+    ```
+
+3. **Prototype Inheritance**:
+    - Objects can inherit properties and methods from other objects via the prototype chain.
+
+    ```javascript
+    const animal = {
+        eats: true
+    };
+
+    const rabbit = Object.create(animal);
+    rabbit.jumps = true;
+
+    console.log(rabbit.eats);  // true
+    console.log(rabbit.jumps); // true
+    ```
+
+#### Inheritance with Classes
+1. **Class Inheritance**:
+    - Classes in ES6 make inheritance more straightforward and readable.
+
+    ```javascript
+    class Animal {
+        constructor(name) {
+            this.name = name;
+        }
+
+        speak() {
+            console.log(`${this.name} makes a noise`);
+        }
+    }
+
+    class Dog extends Animal {
+        constructor(name, breed) {
+            super(name);
+            this.breed = breed;
+        }
+
+        speak() {
+            console.log(`${this.name} barks`);
+        }
+    }
+
+    const myDog = new Dog("Buddy", "Golden Retriever");
+    myDog.speak(); // "Buddy barks"
+    ```
+
+2. **Static Methods**:
+    - Static methods are defined on the class itself, not on instances of the class.
+    - They are called on the class, not on instances.
+
+    ```javascript
+    class MathHelper {
+        static square(x) {
+            return x * x;
+        }
+    }
+
+    console.log(MathHelper.square(4)); // 16
+    ```
+
+#### Practice Exercises
+1. **Exercise 1: Extending Prototypes**
+
+    ```javascript
+    function Car(brand) {
+        this.brand = brand;
+    }
+
+    Car.prototype.drive = function() {
+        console.log(`${this.brand} is driving`);
+    };
+
+    const tesla = new Car("Tesla");
+    const bmw = new Car("BMW");
+
+    tesla.drive(); // "Tesla is driving"
+    bmw.drive();   // "BMW is driving"
+    ```
+
+2. **Exercise 2: Prototype Chain**
+
+    ```javascript
+    const person = {
+        isHuman: false,
+        printIntroduction() {
+            console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
+        }
+    };
+
+    const me = Object.create(person);
+    me.name = "John";
+    me.isHuman = true;
+
+    me.printIntroduction(); // "My name is John. Am I human? true"
+    ```
+
+3. **Exercise 3: Class Inheritance**
+
+    ```javascript
+    class Vehicle {
+        constructor(make) {
+            this.make = make;
+        }
+
+        start() {
+            console.log(`${this.make} vehicle started`);
+        }
+    }
+
+    class Motorcycle extends Vehicle {
+        constructor(make, type) {
+            super(make);
+            this.type = type;
+        }
+
+        start() {
+            console.log(`${this.make} ${this.type} started`);
+        }
+    }
+
+    const myBike = new Motorcycle("Yamaha", "Sport");
+    myBike.start(); // "Yamaha Sport started"
+    ```
+
+4. **Exercise 4: Static Methods**
+
+    ```javascript
+    class Calculator {
+        static add(a, b) {
+            return a + b;
+        }
+
+        static subtract(a, b) {
+            return a - b;
+        }
+    }
+
+    console.log(Calculator.add(10, 5));    // 15
+    console.log(Calculator.subtract(10, 5)); // 5
+    ```
+
+### Summary
+- **Prototypes**: Extend objects by adding methods to their prototypes.
+- **Prototype Chain**: Understand how objects inherit properties and methods via the prototype chain.
+- **Class Inheritance**: Use ES6 classes for clearer and more readable inheritance.
+- **Static Methods**: Define methods that belong to the class itself rather than instances of the class.
+
+---
 
