@@ -922,6 +922,262 @@
 - **Prototype Chain**: Understand how objects inherit properties and methods via the prototype chain.
 - **Class Inheritance**: Use ES6 classes for clearer and more readable inheritance.
 - **Static Methods**: Define methods that belong to the class itself rather than instances of the class.
-
+Spend one hour today studying these concepts, working through the provided examples, and completing the exercises
 ---
+### Day 6: Advanced JavaScript Concepts - Closures and IIFE (Immediately Invoked Function Expressions)
+
+#### Closures
+1. **Definition**:
+    - A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.
+    - Closures are created whenever a function is created, at function creation time.
+
+2. **Lexical Scope**:
+    - Lexical scope means that a function can access variables from its outer (parent) scope, even after the parent function has finished executing.
+
+    ```javascript
+    function outerFunction() {
+        const outerVariable = "I am outside!";
+        
+        function innerFunction() {
+            console.log(outerVariable);
+        }
+
+        return innerFunction;
+    }
+
+    const myInnerFunction = outerFunction();
+    myInnerFunction(); // Logs: "I am outside!"
+    ```
+
+3. **Practical Use Cases**:
+    - **Data Privacy**: Closures can be used to create private variables and methods.
+    - **Function Factories**: Create functions with pre-set arguments.
+    - **Maintaining State**: Closures can maintain state between function calls.
+
+    ```javascript
+    // Data Privacy
+    function createCounter() {
+        let count = 0;
+        return {
+            increment: function() {
+                count++;
+                console.log(count);
+            },
+            decrement: function() {
+                count--;
+                console.log(count);
+            },
+            getCount: function() {
+                return count;
+            }
+        };
+    }
+
+    const counter = createCounter();
+    counter.increment(); // 1
+    counter.increment(); // 2
+    console.log(counter.getCount()); // 2
+
+    // Function Factories
+    function createMultiplier(multiplier) {
+        return function(num) {
+            return num * multiplier;
+        };
+    }
+
+    const double = createMultiplier(2);
+    const triple = createMultiplier(3);
+
+    console.log(double(5)); // 10
+    console.log(triple(5)); // 15
+
+    // Maintaining State
+    function createLogger(name) {
+        return function(message) {
+            console.log(`[${name}] ${message}`);
+        };
+    }
+
+    const appLogger = createLogger("App");
+    appLogger("Application started"); // [App] Application started
+    ```
+
+#### IIFE (Immediately Invoked Function Expressions)
+1. **Definition**:
+    - An IIFE is a function that runs as soon as it is defined.
+    - It is a design pattern also known as a self-executing anonymous function.
+
+    ```javascript
+    (function() {
+        console.log("This is an IIFE");
+    })();
+    ```
+
+2. **Purpose and Benefits**:
+    - **Encapsulation**: IIFE helps in creating a private scope, avoiding polluting the global scope.
+    - **Module Pattern**: IIFE can be used to create modules, encapsulating related code together.
+    - **Initialization**: IIFE can be used to initialize variables and execute code immediately.
+
+    ```javascript
+    // Encapsulation
+    (function() {
+        const privateVar = "I am private";
+        console.log(privateVar); // Logs: "I am private"
+    })();
+    
+    // privateVar is not accessible here
+    // console.log(privateVar); // ReferenceError
+
+    // Module Pattern
+    const myModule = (function() {
+        const moduleVariable = "Module variable";
+
+        function moduleMethod() {
+            console.log(moduleVariable);
+        }
+
+        return {
+            publicMethod: moduleMethod
+        };
+    })();
+
+    myModule.publicMethod(); // Logs: "Module variable"
+    ```
+
+3. **Syntax Variations**:
+    - IIFE can be written using different syntax variations, but they all achieve the same goal of immediate execution.
+
+    ```javascript
+    // Function Expression
+    (function() {
+        console.log("IIFE with function expression");
+    })();
+
+    // Arrow Function
+    (() => {
+        console.log("IIFE with arrow function");
+    })();
+
+    // Named Function Expression
+    (function namedIIFE() {
+        console.log("Named IIFE");
+    })();
+    ```
+
+#### Practice Exercises
+1. **Exercise 1: Simple Closure**
+
+    ```javascript
+    function greet(name) {
+        const greeting = "Hello, " + name;
+        return function() {
+            console.log(greeting);
+        };
+    }
+
+    const greetJohn = greet("John");
+    greetJohn(); // Logs: "Hello, John"
+    ```
+
+2. **Exercise 2: Closure with Private Variables**
+
+    ```javascript
+    function bankAccount(initialBalance) {
+        let balance = initialBalance;
+        return {
+            deposit: function(amount) {
+                balance += amount;
+                console.log(`Deposited: $${amount}, New Balance: $${balance}`);
+            },
+            withdraw: function(amount) {
+                if (amount <= balance) {
+                    balance -= amount;
+                    console.log(`Withdrew: $${amount}, New Balance: $${balance}`);
+                } else {
+                    console.log(`Insufficient funds. Current Balance: $${balance}`);
+                }
+            },
+            getBalance: function() {
+                return balance;
+            }
+        };
+    }
+
+    const myAccount = bankAccount(100);
+    myAccount.deposit(50); // Deposited: $50, New Balance: $150
+    myAccount.withdraw(30); // Withdrew: $30, New Balance: $120
+    console.log(myAccount.getBalance()); // 120
+    ```
+
+3. **Exercise 3: IIFE for Encapsulation**
+
+    ```javascript
+    (function() {
+        const privateVar = "Encapsulated variable";
+        function privateFunction() {
+            console.log(privateVar);
+        }
+        privateFunction(); // Logs: "Encapsulated variable"
+    })();
+    ```
+
+4. **Exercise 4: Module Pattern with IIFE**
+
+    ```javascript
+    const calculatorModule = (function() {
+        let result = 0;
+
+        function add(num) {
+            result += num;
+            return result;
+        }
+
+        function subtract(num) {
+            result -= num;
+            return result;
+        }
+
+        function multiply(num) {
+            result *= num;
+            return result;
+        }
+
+        function divide(num) {
+            if (num !== 0) {
+                result /= num;
+                return result;
+            } else {
+                console.log("Cannot divide by zero");
+                return result;
+            }
+        }
+
+        function getResult() {
+            return result;
+        }
+
+        return {
+            add,
+            subtract,
+            multiply,
+            divide,
+            getResult
+        };
+    })();
+
+    console.log(calculatorModule.add(5)); // 5
+    console.log(calculatorModule.multiply(2)); // 10
+    console.log(calculatorModule.subtract(4)); // 6
+    console.log(calculatorModule.divide(3)); // 2
+    console.log(calculatorModule.getResult()); // 2
+    ```
+
+### Summary
+- **Closures**: Understand how functions retain access to their lexical scope.
+- **Lexical Scope**: Learn how variables from the parent scope are accessible in the child function.
+- **Practical Uses of Closures**: Data privacy, function factories, and maintaining state.
+- **IIFE**: Create functions that execute immediately to encapsulate code and avoid polluting the global scope.
+- **Module Pattern**: Use IIFE to create self-contained modules.
+
+Spend one hour today studying these concepts, working through the provided examples, and completing the exercises.
 
